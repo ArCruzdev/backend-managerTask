@@ -1,0 +1,39 @@
+## Archivos de usuario
+*.rsuser
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+## Carpetas de configuración
+.vs/
+.vscode/
+
+## Resultados de compilación
+[Bb]in/
+[Oo]bj/
+[Dd]ebug*/
+[Rr]elease*/
+
+## Archivos temporales
+*.log
+*.tmp
+*.bak
+*.cache
+
+## Archivos del sistema
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+## Archivos de publicación
+publish/
+*.Publish.xml
+
+## Otros
+*.ncb
+*.sdf
+*.opensdf
+*.VC.db
+*.VC.VC.opendb

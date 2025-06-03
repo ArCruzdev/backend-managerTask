@@ -1,0 +1,12 @@
+**/bin/
+**/obj/
+.vscode/
+.git/
+*.user
+*.suo
+*.ps1
+*.db
+*.mdf
+*.ldf
+Dockerfile
+docker-compose.override.yml

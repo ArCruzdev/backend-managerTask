@@ -1,0 +1,42 @@
+﻿services:
+  # Servicio de la base de datos SQL Server
+  sqldb:
+    # Imagen oficial de SQL Server para Linux en Docker Hub
+    # Puedes usar 'mcr.microsoft.com/mssql/server:2019-latest' o una versión específica
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: task-management-sqldb
+    ports:
+      - "1433:1433" # Mapea el puerto 1433 del contenedor al 1433 de tu máquina local
+    environment:
+      # ¡IMPORTANTE! Reemplaza con tu contraseña segura. Debe coincidir con appsettings.json
+      SA_PASSWORD: "TuPassword123$"
+      ACCEPT_EULA: "Y" # Acepta el acuerdo de licencia de usuario final
+    volumes:
+      # Persistencia de datos: guarda los datos de la DB en un volumen para que no se pierdan al reiniciar el contenedor
+      - sqldata:/var/opt/mssql # Para SQL Server en Linux
+      # Si usas SQL Server en Windows, el path del volumen puede ser diferente (más complejo) o simplemente omitir esta línea si no necesitas persistencia avanzada para desarrollo.
+    
+
+  # Servicio de tu aplicación Web API
+  webapi:
+    # Construye la imagen Docker a partir de tu Dockerfile (que crearemos a continuación)
+    build:
+      context: . # El contexto de construcción es la raíz de la solución
+      dockerfile: Dockerfile # Ruta a tu Dockerfile dentro del proyecto WebAPI
+    container_name: task-management-webapi
+    ports:
+      - "8080:8080" # Mapea el puerto 8080 del contenedor (donde escucha tu API) al 8080 de tu máquina local
+      # Si tu API usa HTTPS y el puerto 443, también lo mapearías: - "443:443"
+    environment:
+      # Sobrescribe la cadena de conexión de appsettings.json si es necesario para diferentes entornos.
+      # Para desarrollo local con docker-compose, el Server debe ser el nombre del servicio de la DB.
+      # Esta es la misma cadena de conexión que en WebAPI/appsettings.json
+      ConnectionStrings__DefaultConnection: "Server=sqldb;Database=TaskManagementDb;User Id=sa;Password=TuPassword123$;Encrypt=False;TrustServerCertificate=True;"
+      ASPNETCORE_URLS: "http://+:8080" # Asegura que la API escuche en el puerto 8080 dentro del contenedor
+      ASPNETCORE_ENVIRONMENT: "Development" # Puedes cambiar a Production, Staging, etc.
+    depends_on:
+        - sqldb
+
+# Volúmenes para persistencia de datos (SQL Server)
+volumes:
+  sqldata: # Define un volumen llamado 'sqldata' para los datos de SQL Server
