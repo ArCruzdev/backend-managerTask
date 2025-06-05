@@ -158,6 +158,14 @@ namespace Domain.Entities
                 AddDomainEvent(new ProjectStatusChangedEvent(this, ProjectStatus.Completed));
             }
         }
+        //validacion si se puede o no eliminar el project
+        public void EnsureCanBeDeleted()
+        {
+            if (Status == ProjectStatus.Completed)
+            {
+                throw new InvalidProjectOperationException("Cannot delete a completed project.");
+            }
+        }
 
 
 

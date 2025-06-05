@@ -2,6 +2,7 @@
 using Application.Features.TaskItems.Commands.DeleteTaskItem;
 using Application.Features.TaskItems.Commands.UpdateTaskItem;
 using Application.Features.TaskItems.Queries;
+using Application.Features.TaskItems.Queries.GetTasksByProjectId;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -53,6 +54,27 @@ namespace WebAPI.Controllers
         {
             var result = await _mediator.Send(new DeleteTaskItemCommand(id));
             return result ? NoContent() : NotFound();
+        }
+
+        [HttpGet("project/{projectId}")] // La ruta que tu frontend ya está llamando
+        public async Task<ActionResult<List<TaskItemDto>>> GetTasksByProjectId(string projectId)
+        {
+            var query = new GetTasksByProjectIdQuery(projectId);
+            try
+            {
+                var tasks = await _mediator.Send(query);
+
+                if (tasks == null || tasks.Count == 0)
+                {
+                    return NotFound($"No se encontraron tareas para el proyecto con ID: {projectId}");
+                }
+
+                return Ok(tasks);
+            }
+            catch (ArgumentException ex) // Captura la excepción si el GUID no es válido
+            {
+                return BadRequest(new { message = ex.Message });
+            }
         }
 
     }

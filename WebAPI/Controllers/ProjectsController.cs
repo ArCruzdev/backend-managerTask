@@ -1,7 +1,8 @@
 using Application.Features.Projects.Command.AddProjectMember;
-using Application.Features.Projects.Command.CreateProject;
-using Application.Features.Projects.Command.UpdateProject;
 using Application.Features.Projects.Command.ChangeProjectStatus;
+using Application.Features.Projects.Command.CreateProject;
+using Application.Features.Projects.Command.DeleteProject;
+using Application.Features.Projects.Command.UpdateProject;
 using Application.Features.Projects.Queries;
 using Domain.Enums;
 using MediatR;
@@ -66,4 +67,10 @@ public class ProjectsController : ControllerBase
         return result ? NoContent() : NotFound();
     }
 
+    [HttpDelete("{id}")]
+    public async Task<IActionResult> DeleteProject(Guid id)
+    {
+        var result = await _mediator.Send(new DeleteProjectCommand(id));
+        return result ? NoContent() : NotFound();
+    }
 }
