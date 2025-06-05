@@ -5,7 +5,7 @@ using Domain.Enums;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace Application.Features.Projects.Commands.ChangeProjectStatus;
+namespace Application.Features.Projects.Command.ChangeProjectStatus;
 
 public class ChangeProjectStatusCommandHandler : IRequestHandler<ChangeProjectStatusCommand, bool>
 {

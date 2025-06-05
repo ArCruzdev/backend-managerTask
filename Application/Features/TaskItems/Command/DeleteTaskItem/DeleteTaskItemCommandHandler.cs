@@ -26,6 +26,9 @@ public class DeleteTaskItemCommandHandler : IRequestHandler<DeleteTaskItemComman
         _context.TaskItems.Remove(entity);
         await _context.SaveChangesAsync(cancellationToken);
 
+        entity.EnsureCanBeDeleted();
+        _context.TaskItems.Remove(entity);
+
         return true;
     }
 }

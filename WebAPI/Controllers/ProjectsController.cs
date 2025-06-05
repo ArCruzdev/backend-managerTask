@@ -1,7 +1,7 @@
 using Application.Features.Projects.Command.AddProjectMember;
 using Application.Features.Projects.Command.CreateProject;
 using Application.Features.Projects.Command.UpdateProject;
-using Application.Features.Projects.Commands.ChangeProjectStatus;
+using Application.Features.Projects.Command.ChangeProjectStatus;
 using Application.Features.Projects.Queries;
 using Domain.Enums;
 using MediatR;

@@ -1,5 +1,7 @@
-﻿using AutoMapper;
+﻿using Application.Common.Behaviors;
+using AutoMapper;
 using FluentValidation;
+using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
 
@@ -18,6 +20,9 @@ public static class DependencyInjection
 
         // Registrar validadores con FluentValidation
         services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
+
+        //para ejecutar mis validadores antes de los handler
+        services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
 
         return services;
     }

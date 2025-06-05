@@ -119,7 +119,8 @@ namespace Domain.Entities
 
             Guid? previousUserId = AssignedToUserId;
             AssignedToUserId = null;
-            AssignedToUser = null; 
+            AssignedToUser = null;
+            Status = TaskItemStatus.Pending;
 
             AddDomainEvent(new TaskUnassignedEvent(this, previousUserId)); 
         }
@@ -161,7 +162,9 @@ namespace Domain.Entities
 
             Status = TaskItemStatus.Completed;
             CompletionDate = DateTime.UtcNow; 
-            AddDomainEvent(new TaskCompletedEvent(this)); 
+            AddDomainEvent(new TaskCompletedEvent(this));
+            //finaliza las tareas si el proyecto ya finalizo
+            Project?.FinalizeIfAllTasksCompleted();
         }
 
         /// <summary>
@@ -201,5 +204,22 @@ namespace Domain.Entities
             _comments.Add(comment);
             AddDomainEvent(new TaskCommentAddedEvent(this, comment.Id)); 
         }
+
+        public void EnsureCanBeDeleted()
+        {
+            if (Status == TaskItemStatus.Completed || Status == TaskItemStatus.Canceled)
+            {
+                throw new InvalidTaskOperationException("Cannot delete a task that is completed or canceled.");
+            }
+        }
+
+        public void AssignUser(Guid id)
+        {
+            if (id == AssignedToUserId) return; // si ya está asignado, no hace nada
+
+            AssignedToUserId = id;
+            Status = TaskItemStatus.InProgress;
+        }
+
     }
 }

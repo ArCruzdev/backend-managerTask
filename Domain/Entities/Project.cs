@@ -145,6 +145,21 @@ namespace Domain.Entities
             AddDomainEvent(new ProjectMemberRemovedEvent(this, user)); 
         }
 
-       
+        public void FinalizeIfAllTasksCompleted()
+        {
+            if (Status == ProjectStatus.Completed || Status == ProjectStatus.Archived)
+                return; 
+
+            if (_tasks.Any() && _tasks.All(t => t.Status == TaskItemStatus.Completed))
+            {
+                Status = ProjectStatus.Completed;
+                EndDate = DateTime.UtcNow;
+
+                AddDomainEvent(new ProjectStatusChangedEvent(this, ProjectStatus.Completed));
+            }
+        }
+
+
+
     }
 }

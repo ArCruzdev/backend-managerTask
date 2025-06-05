@@ -147,5 +147,22 @@ namespace Domain.Entities
         {
             _memberOfProjects.RemoveAll(p => p.Id == project.Id);
         }
+
+        public void AssignTask(TaskItem task)
+        {
+            if (!IsActive)
+                throw new InvalidUserOperationException("Cannot assign tasks to an inactive user.");
+
+            if (!_assignedTasks.Any(t => t.Id == task.Id))
+            {
+                _assignedTasks.Add(task);
+            }
+        }
+
+        public void RemoveTask(TaskItem task)
+        {
+            _assignedTasks.RemoveAll(t => t.Id == task.Id);
+        }
+
     }
 }
