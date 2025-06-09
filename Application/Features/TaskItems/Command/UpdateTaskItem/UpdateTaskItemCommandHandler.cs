@@ -1,6 +1,7 @@
 ﻿using Application.Common.Exceptions;
 using Application.Common.Interfaces;
 using Domain.Entities;
+using Domain.Enums; 
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
@@ -23,7 +24,16 @@ public class UpdateTaskItemCommandHandler : IRequestHandler<UpdateTaskItemComman
         if (entity == null)
             throw new NotFoundException(nameof(TaskItem), request.Id);
 
-        entity.UpdateDetails(request.Title, request.Description, request.DueDate, request.Priority);
+        
+        entity.UpdateDetails(
+            request.Title,
+            request.Description,
+            request.DueDate,
+            request.Status, 
+            request.Priority,
+            request.CompletionDate, 
+            request.AssignedToUserId 
+        );
 
         await _context.SaveChangesAsync(cancellationToken);
         return true;

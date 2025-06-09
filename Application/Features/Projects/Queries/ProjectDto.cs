@@ -11,8 +11,7 @@ public class ProjectDto : IMapFrom<Project>
     public DateTime StartDate { get; set; }
     public DateTime? EndDate { get; set; }
     public string Status { get; set; } = string.Empty; // Mapearemos el enum a string
+    public bool HasActiveTasks { get; set; }
 
-    // Propiedades para DTOs anidados o IDs relacionados
-    // public List<TaskItemDto> Tasks { get; set; } // Opcional: si queremos listar las tareas directamente
-    // public List<UserDto> Members { get; set; }  // Opcional: si queremos listar los miembros
+   
 }

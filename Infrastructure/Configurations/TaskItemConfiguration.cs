@@ -1,4 +1,4 @@
-﻿using Domain.Entities; // Para acceder a la entidad TaskItem
+﻿using Domain.Entities; 
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -8,7 +8,7 @@ public class TaskItemConfiguration : IEntityTypeConfiguration<TaskItem>
 {
     public void Configure(EntityTypeBuilder<TaskItem> builder)
     {
-        builder.ToTable("TaskItems"); // Nombre de la tabla
+        builder.ToTable("TaskItems"); 
         builder.HasKey(ti => ti.Id);
 
         builder.Property(ti => ti.Title)
@@ -16,12 +16,12 @@ public class TaskItemConfiguration : IEntityTypeConfiguration<TaskItem>
             .IsRequired();
 
         builder.Property(ti => ti.Description)
-            .HasMaxLength(2000); // Descripción más larga
+            .HasMaxLength(2000); 
 
         builder.Property(ti => ti.DueDate)
             .IsRequired();
 
-        // Mapeo de enums a string
+        
         builder.Property(ti => ti.Status)
             .HasConversion<string>()
             .HasMaxLength(50)
@@ -36,13 +36,13 @@ public class TaskItemConfiguration : IEntityTypeConfiguration<TaskItem>
         builder.HasOne(ti => ti.Project)
             .WithMany(p => p.Tasks)
             .HasForeignKey(ti => ti.ProjectId)
-            .OnDelete(DeleteBehavior.Restrict); // No eliminar proyecto si tiene tareas
+            .OnDelete(DeleteBehavior.Restrict); 
 
-        // Relación: Un TaskItem puede ser asignado a un Usuario (opcional)
+        // Relación: Un TaskItem puede ser asignado a un Usuario 
         builder.HasOne(ti => ti.AssignedToUser)
-            .WithMany() // No necesitamos una colección de TaskItems en User por ahora, solo la relación
+            .WithMany() 
             .HasForeignKey(ti => ti.AssignedToUserId)
-            .IsRequired(false) // Permite que AssignedToUserId sea NULL
+            .IsRequired(false) 
             .OnDelete(DeleteBehavior.SetNull); // Si el usuario asignado se borra, la tarea queda sin asignar
     }
 }

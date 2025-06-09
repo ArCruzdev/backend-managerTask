@@ -56,7 +56,7 @@ namespace WebAPI.Controllers
             return result ? NoContent() : NotFound();
         }
 
-        [HttpGet("project/{projectId}")] // La ruta que tu frontend ya está llamando
+        [HttpGet("project/{projectId}")] 
         public async Task<ActionResult<List<TaskItemDto>>> GetTasksByProjectId(string projectId)
         {
             var query = new GetTasksByProjectIdQuery(projectId);
@@ -71,7 +71,7 @@ namespace WebAPI.Controllers
 
                 return Ok(tasks);
             }
-            catch (ArgumentException ex) // Captura la excepción si el GUID no es válido
+            catch (ArgumentException ex) 
             {
                 return BadRequest(new { message = ex.Message });
             }

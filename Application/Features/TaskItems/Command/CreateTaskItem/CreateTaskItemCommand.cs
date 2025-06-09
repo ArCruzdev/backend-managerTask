@@ -12,6 +12,6 @@ public record CreateTaskItemCommand : IRequest<Guid>
     public string? Description { get; init; }
     public DateTime DueDate { get; init; }
     public Guid ProjectId { get; init; }
-    public TaskPriority Priority { get; init; } = TaskPriority.Medium; // Valor por defecto
-    public Guid? AssignedToUserId { get; init; } // Opcional, para asignar al crear
+    public TaskPriority Priority { get; init; } = TaskPriority.Medium; 
+    public Guid? AssignedToUserId { get; init; } 
 }

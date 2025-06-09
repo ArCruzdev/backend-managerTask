@@ -1,5 +1,4 @@
-﻿// Path: Application/Common/Exceptions/NotFoundException.cs
-using System;
+﻿using System;
 
 namespace Application.Common.Exceptions;
 

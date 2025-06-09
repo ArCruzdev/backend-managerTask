@@ -93,7 +93,7 @@ namespace Domain.Entities
             {
                 foreach (var task in _tasks.Where(t => t.Status == TaskItemStatus.Pending || t.Status == TaskItemStatus.InProgress))
                 {
-                    task.Cancel(); 
+                    task.ChangeStatus(TaskItemStatus.Canceled);
                 }
             }
 
@@ -138,7 +138,7 @@ namespace Domain.Entities
             
             foreach (var task in _tasks.Where(t => t.AssignedToUserId == user.Id && (t.Status == TaskItemStatus.Pending || t.Status == TaskItemStatus.InProgress)))
             {
-                task.UnassignUser(); 
+                task.AssignToUser(null);
             }
 
             _members.Remove(_members.First(m => m.Id == user.Id));
