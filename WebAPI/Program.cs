@@ -1,8 +1,8 @@
 using Application; // Para AddApplicationServices
 using Infrastructure; // Para AddInfrastructureServices
 using Microsoft.EntityFrameworkCore; // Para Database.Migrate()
-using Infrastructure; // Para ApplicationDbContext (si lo necesitas para migraciones)
-using Infrastructure.Common; // Para MediatorExtensions (si lo usas en el contexto de la app)
+using Application.Common.Exceptions;
+using Microsoft.AspNetCore.Diagnostics;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -57,6 +57,42 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+// --- Middleware Global de Manejo de Excepciones ---
+app.UseExceptionHandler(appBuilder =>
+{
+    appBuilder.Run(async context =>
+    {
+        var exceptionHandlerPathFeature = context.Features.Get<IExceptionHandlerPathFeature>();
+        var exception = exceptionHandlerPathFeature?.Error;
+
+        var statusCode = StatusCodes.Status500InternalServerError;
+        var message = "Ha ocurrido un error inesperado en el servidor."; // Mensaje genérico para 500
+
+        // Manejo específico de tus excepciones personalizadas
+        if (exception is NotFoundException notFoundEx)
+        {
+            statusCode = StatusCodes.Status404NotFound;
+            message = notFoundEx.Message; // Muestra el mensaje de la excepción de NotFound
+        }
+        else if (exception is BadRequestException badRequestEx) // <--- ¡ESTE ES EL BLOQUE AÑADIDO/MODIFICADO!
+        {
+            statusCode = StatusCodes.Status400BadRequest;
+            message = badRequestEx.Message; // Muestra el mensaje de la excepción de BadRequest
+        }
+        // Puedes añadir más bloques 'else if' para otros tipos de excepciones
+        // Por ejemplo, para DomainException si tus entidades lanzan errores de negocio directamente.
+        // else if (exception is DomainException domainEx) { ... }
+
+
+        context.Response.ContentType = "application/json";
+        context.Response.StatusCode = statusCode;
+
+        // Escribe el mensaje de error en el cuerpo de la respuesta JSON
+        await context.Response.WriteAsJsonAsync(new { message = message });
+    });
+});
+// --- FIN Middleware Global de Manejo de Excepciones ---
 
 // ******************************************************************************
 // ******************* APLICACIÓN DE MIGRACIONES AL INICIO (para desarrollo) ***

@@ -1,6 +1,5 @@
-﻿// Path: Application/Features/Users/Queries/UserDto.cs
-using Application.Common.Mappings;
-using Domain.Entities; // Necesitamos acceso a la entidad User
+﻿using Application.Common.Mappings;
+using Domain.Entities; 
 
 namespace Application.Features.Users.Queries;
 

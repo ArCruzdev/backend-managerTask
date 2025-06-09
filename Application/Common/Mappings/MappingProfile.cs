@@ -30,8 +30,7 @@ public class MappingProfile : Profile
             }
             else
             {
-                // Convención predeterminada si no hay método Mapping explícito.
-                // AutoMapper mapeará propiedades con nombres coincidentes.
+                
                 // Aquí, 'type' es el DTO (destino) y 'sourceType' es la entidad (origen).
                 // El tipo de origen se obtiene de la interfaz IMapFrom<TSource>
                 var iMapFromType = type.GetInterfaces().FirstOrDefault(i =>

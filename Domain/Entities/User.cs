@@ -2,6 +2,7 @@
 using Domain.Events;
 using Domain.Constants;
 using Domain.Exceptions;
+using Domain.Enums;
 
 namespace Domain.Entities
 {
@@ -103,7 +104,7 @@ namespace Domain.Entities
             
             foreach (var task in _assignedTasks.Where((Func<TaskItem, bool>)(t => t.Status == Enums.TaskItemStatus.Pending || t.Status == Enums.TaskItemStatus.InProgress)))
             {
-                task.UnassignUser(); 
+                task.AssignToUser(null);  
             }
 
             AddDomainEvent(new UserDeactivatedEvent(this));
@@ -119,8 +120,6 @@ namespace Domain.Entities
             IsActive = true;
             AddDomainEvent(new UserActivatedEvent(this)); 
         }
-
-        // Helper method for email validation (can be more robust with regex)
         private bool IsValidEmail(string email)
         {
             try
@@ -147,5 +146,22 @@ namespace Domain.Entities
         {
             _memberOfProjects.RemoveAll(p => p.Id == project.Id);
         }
+
+        public void AssignTask(TaskItem task)
+        {
+            if (!IsActive)
+                throw new InvalidUserOperationException("Cannot assign tasks to an inactive user.");
+
+            if (!_assignedTasks.Any(t => t.Id == task.Id))
+            {
+                _assignedTasks.Add(task);
+            }
+        }
+
+        public void RemoveTask(TaskItem task)
+        {
+            _assignedTasks.RemoveAll(t => t.Id == task.Id);
+        }
+
     }
 }

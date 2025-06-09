@@ -1,5 +1,4 @@
-﻿// Path: Infrastructure/Configurations/ProjectConfiguration.cs
-using Domain.Entities; // Para acceder a la entidad Project
+﻿using Domain.Entities; 
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -32,15 +31,6 @@ public class ProjectConfiguration : IEntityTypeConfiguration<Project>
             .WithOne(ti => ti.Project)
             .HasForeignKey(ti => ti.ProjectId)
             .OnDelete(DeleteBehavior.Cascade); // Si se borra un proyecto, sus tareas también
-
-        // Relaciones: Un proyecto tiene muchos Usuarios (miembros del proyecto)
-        // Esto asume una relación de muchos a muchos o una tabla intermedia si es necesario.
-        // Por simplicidad, si la lista de miembros en Project es solo una colección de Users directamente,
-        // EF Core puede intentar una tabla de unión implícita.
-        // Si no tienes una entidad ProjectMember, EF Core creará una tabla de unión por defecto.
-        // Si tuvieras una entidad ProjectMember, sería así:
-        // builder.HasMany(p => p.ProjectMembers)
-        //     .WithOne(pm => pm.Project)
-        //     .HasForeignKey(pm => pm.ProjectId);
+       
     }
 }

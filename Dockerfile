@@ -7,7 +7,7 @@ COPY ["Infrastructure/Infrastructure.csproj", "Infrastructure/"]
 COPY ["Domain/Domain.csproj", "Domain/"]
 COPY TaskManagerApi.sln .
 
-RUN dotnet restore TaskManagerApi.sln
+RUN dotnet restore WebAPI/WebAPI.csproj
 
 COPY . .
 

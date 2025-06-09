@@ -93,7 +93,7 @@ namespace Domain.Entities
             {
                 foreach (var task in _tasks.Where(t => t.Status == TaskItemStatus.Pending || t.Status == TaskItemStatus.InProgress))
                 {
-                    task.Cancel(); 
+                    task.ChangeStatus(TaskItemStatus.Canceled);
                 }
             }
 
@@ -138,13 +138,36 @@ namespace Domain.Entities
             
             foreach (var task in _tasks.Where(t => t.AssignedToUserId == user.Id && (t.Status == TaskItemStatus.Pending || t.Status == TaskItemStatus.InProgress)))
             {
-                task.UnassignUser(); 
+                task.AssignToUser(null);
             }
 
             _members.Remove(_members.First(m => m.Id == user.Id));
             AddDomainEvent(new ProjectMemberRemovedEvent(this, user)); 
         }
 
-       
+        public void FinalizeIfAllTasksCompleted()
+        {
+            if (Status == ProjectStatus.Completed || Status == ProjectStatus.Archived)
+                return; 
+
+            if (_tasks.Any() && _tasks.All(t => t.Status == TaskItemStatus.Completed))
+            {
+                Status = ProjectStatus.Completed;
+                EndDate = DateTime.UtcNow;
+
+                AddDomainEvent(new ProjectStatusChangedEvent(this, ProjectStatus.Completed));
+            }
+        }
+        //validacion si se puede o no eliminar el project
+        public void EnsureCanBeDeleted()
+        {
+            if (Status == ProjectStatus.Completed)
+            {
+                throw new InvalidProjectOperationException("Cannot delete a completed project.");
+            }
+        }
+
+
+
     }
 }

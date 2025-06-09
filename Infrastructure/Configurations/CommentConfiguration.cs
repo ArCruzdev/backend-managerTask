@@ -1,5 +1,4 @@
-﻿// Path: Infrastructure/Configurations/CommentConfiguration.cs
-using Domain.Entities; // Para acceder a la entidad Comment
+﻿using Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -20,12 +19,12 @@ public class CommentConfiguration : IEntityTypeConfiguration<Comment>
         builder.HasOne(c => c.TaskItem)
             .WithMany(ti => ti.Comments)
             .HasForeignKey(c => c.TaskItemId)
-            .OnDelete(DeleteBehavior.Cascade); // Si se borra la tarea, sus comentarios también
+            .OnDelete(DeleteBehavior.Cascade); 
 
         // Relación: Un comentario es hecho por un Usuario
         builder.HasOne(c => c.User)
-            .WithMany(u => u.Comments) // Relación inversa en User (si existe)
+            .WithMany(u => u.Comments) 
             .HasForeignKey(c => c.UserId)
-            .OnDelete(DeleteBehavior.Restrict); // No eliminar el usuario si tiene comentarios
+            .OnDelete(DeleteBehavior.Restrict); 
     }
 }

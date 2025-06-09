@@ -1,5 +1,5 @@
 ﻿using MediatR;
-using Domain.Common; // Para BaseEntity y BaseEvent
+using Domain.Common; 
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
 using System.Threading.Tasks;

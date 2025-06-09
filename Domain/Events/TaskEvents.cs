@@ -1,6 +1,6 @@
 ﻿using Domain.Common;
 using Domain.Entities;
-
+using Domain.Enums; 
 
 namespace Domain.Events
 {
@@ -19,6 +19,7 @@ namespace Domain.Events
 
     /// <summary>
     /// Event triggered when a Task's details are updated.
+    /// This is a general event for broad updates (title, description, due date, priority).
     /// </summary>
     public class TaskUpdatedEvent : BaseEvent
     {
@@ -51,61 +52,40 @@ namespace Domain.Events
     public class TaskUnassignedEvent : BaseEvent
     {
         public TaskItem Task { get; }
-        public Guid? PreviousAssignedToUserId { get; }
+        public Guid PreviousAssignedToUserId { get; } 
 
-        public TaskUnassignedEvent(TaskItem task, Guid? previousAssignedToUserId)
+        public TaskUnassignedEvent(TaskItem task, Guid previousAssignedToUserId) 
         {
             Task = task;
             PreviousAssignedToUserId = previousAssignedToUserId;
         }
     }
 
+    
     /// <summary>
-    /// Event triggered when a Task's progress is started (changes from Pending to InProgress).
+    /// Event triggered when a Task's status changes. This replaces specific status events
+    /// like TaskProgressStartedEvent, TaskCompletedEvent, TaskCanceledEvent if a single
+    /// 'ChangeStatus' method is used.
     /// </summary>
-    public class TaskProgressStartedEvent : BaseEvent
+    public class TaskStatusChangedEvent : BaseEvent
     {
         public TaskItem Task { get; }
+        public TaskItemStatus NewStatus { get; } // El nuevo estado de la tarea
 
-        public TaskProgressStartedEvent(TaskItem task)
+        public TaskStatusChangedEvent(TaskItem task, TaskItemStatus newStatus)
         {
             Task = task;
+            NewStatus = newStatus;
         }
     }
 
     /// <summary>
-    /// Event triggered when a Task is marked as completed.
-    /// </summary>
-    public class TaskCompletedEvent : BaseEvent
-    {
-        public TaskItem Task { get; }
-
-        public TaskCompletedEvent(TaskItem task)
-        {
-            Task = task;
-        }
-    }
-
-    /// <summary>
-    /// Event triggered when a Task is canceled.
-    /// </summary>
-    public class TaskCanceledEvent : BaseEvent
-    {
-        public TaskItem Task { get; }
-
-        public TaskCanceledEvent(TaskItem task)
-        {
-            Task = task;
-        }
-    }
-
-    /// <summary>
-    /// Evento disparado cuando se añade un comentario a un TaskItem.
+    /// Event triggered when a comment is added to a TaskItem.
     /// </summary>
     public class TaskCommentAddedEvent : BaseEvent
     {
         public TaskItem TaskItem { get; }
-        public Guid CommentId { get; } // A menudo es suficiente con el ID del comentario
+        public Guid CommentId { get; }
 
         public TaskCommentAddedEvent(TaskItem taskItem, Guid commentId)
         {

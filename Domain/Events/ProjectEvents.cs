@@ -79,4 +79,17 @@ namespace Domain.Events
             Member = member;
         }
     }
+
+    /// <summary>
+    /// Event triggered when a Project is removed.
+    /// </summary>
+    public class ProjectDeletedEvent : BaseEvent
+    {
+        public Project Project { get; }
+
+        public ProjectDeletedEvent(Project project)
+        {
+            Project = project;
+        }
+    }
 }
