@@ -27,7 +27,6 @@ public class CreateTaskItemCommandHandler : IRequestHandler<CreateTaskItemComman
             throw new NotFoundException(nameof(Project), request.ProjectId);
         }
 
-        // 2. Validar que el AssignedToUserId exista si se proporciona
         User? assignedToUser = null;
         if (request.AssignedToUserId.HasValue)
         {
@@ -38,8 +37,6 @@ public class CreateTaskItemCommandHandler : IRequestHandler<CreateTaskItemComman
             }
             
         }
-
-        
         var entity = new TaskItem(
             request.Title,
             request.DueDate,

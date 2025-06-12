@@ -2,11 +2,6 @@
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using AutoMapper;
-using System; 
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace Application.Features.TaskItems.Queries.GetTasksByProjectId;
 
@@ -37,7 +32,6 @@ public class GetTasksByProjectIdQueryHandler : IRequestHandler<GetTasksByProject
                                   .AsNoTracking() 
                                   .ToListAsync(cancellationToken);
 
-        
         return _mapper.Map<List<TaskItemDto>>(tasks);
     }
 }

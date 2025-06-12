@@ -43,6 +43,6 @@ public class TaskItemConfiguration : IEntityTypeConfiguration<TaskItem>
             .WithMany() 
             .HasForeignKey(ti => ti.AssignedToUserId)
             .IsRequired(false) 
-            .OnDelete(DeleteBehavior.SetNull); // Si el usuario asignado se borra, la tarea queda sin asignar
+            .OnDelete(DeleteBehavior.SetNull);
     }
 }

@@ -19,22 +19,16 @@ public class GetTaskItemByIdQueryHandler : IRequestHandler<GetTaskItemByIdQuery,
     }
 
     public async Task<TaskItemDto> Handle(GetTaskItemByIdQuery request, CancellationToken cancellationToken)
-    {
-        
-        
+    { 
         var taskItem = await _context.TaskItems
-                                     .Include(ti => ti.Project) // Cargar la relación con Project
-                                     .Include(ti => ti.AssignedToUser) // Cargar la relación con AssignedToUser
+                                     .Include(ti => ti.Project) 
+                                     .Include(ti => ti.AssignedToUser) 
                                      .AsNoTracking()
                                      .FirstOrDefaultAsync(ti => ti.Id == request.Id, cancellationToken);
-
-        
         if (taskItem == null)
         {
-            throw new NotFoundException(nameof(TaskItem), request.Id); // NotFoundException se creará
+            throw new NotFoundException(nameof(TaskItem), request.Id);
         }
-
-        
         var taskItemDto = _mapper.Map<TaskItemDto>(taskItem);
 
         return taskItemDto;

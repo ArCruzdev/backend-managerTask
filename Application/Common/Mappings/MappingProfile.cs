@@ -30,16 +30,16 @@ public class MappingProfile : Profile
             }
             else
             {
-                
-                // Aquí, 'type' es el DTO (destino) y 'sourceType' es la entidad (origen).
-                // El tipo de origen se obtiene de la interfaz IMapFrom<TSource>
+
+                // Here, 'type' is the DTO (destination) and 'sourceType' is the entity (source).
+                // The source type is obtained from the IMapFrom<TSource> interface
                 var iMapFromType = type.GetInterfaces().FirstOrDefault(i =>
                     i.IsGenericType && i.GetGenericTypeDefinition() == typeof(IMapFrom<>));
 
                 if (iMapFromType != null)
                 {
                     var sourceType = iMapFromType.GetGenericArguments()[0];
-                    CreateMap(sourceType, type); // Mapeo de SourceEntity -> Dto
+                    CreateMap(sourceType, type); // Mapping from SourceEntity -> Dto
                 }
             }
         }

@@ -47,7 +47,6 @@ namespace Domain.ValueObjects
             return $"{Amount:N2} {Currency}";
         }
 
-        // ¡ESTE ES EL MÉTODO QUE DEBE ESTAR PRESENTE!
         protected override IEnumerable<object> GetEqualityComponents()
         {
             yield return Amount;

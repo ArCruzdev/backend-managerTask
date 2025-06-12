@@ -1,6 +1,5 @@
 ﻿using FluentValidation;
 
-
 namespace Application.Features.TaskItems.Commands.CreateTaskItem;
 
 public class CreateTaskItemCommandValidator : AbstractValidator<CreateTaskItemCommand>

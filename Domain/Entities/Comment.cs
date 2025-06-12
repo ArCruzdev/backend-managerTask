@@ -43,8 +43,6 @@ namespace Domain.Entities
             AddDomainEvent(new CommentCreatedEvent(this)); 
         }
 
-        // --- Business Logic Methods ---
-
         /// <summary>
         /// Updates the text of the comment.
         /// </summary>

@@ -52,8 +52,6 @@ namespace Domain.Entities
             AddDomainEvent(new UserCreatedEvent(this)); 
         }
 
-        // --- Business Logic Methods ---
-
         /// <summary>
         /// Updates the user's basic profile information.
         /// </summary>

@@ -1,6 +1,4 @@
 ﻿using FluentValidation;
-using Domain.Enums;
-
 namespace Application.Features.Projects.Command.ChangeProjectStatus;
 
 public class ChangeProjectStatusCommandValidator : AbstractValidator<ChangeProjectStatusCommand>
@@ -8,10 +6,7 @@ public class ChangeProjectStatusCommandValidator : AbstractValidator<ChangeProje
     public ChangeProjectStatusCommandValidator()
     {
         RuleFor(x => x.ProjectId)
-            .NotEmpty().WithMessage("ProjectId is required.");
-
-        RuleFor(x => x.NewStatus)
-            .IsInEnum().WithMessage("NewStatus must be a valid ProjectStatus value.");
+            .NotEmpty().WithMessage("El nombre del proyecto es requerido");
     }
 }
 

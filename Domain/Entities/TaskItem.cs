@@ -1,9 +1,7 @@
-﻿// Domain/Entities/TaskItem.cs
-using Domain.Common;
+﻿using Domain.Common;
 using Domain.Enums;
 using Domain.Events;
 using Domain.Exceptions;
-using System; // Agregado para DateTime y Guid
 
 namespace Domain.Entities
 {
@@ -12,26 +10,26 @@ namespace Domain.Entities
         public string Title { get; private set; }
         public string? Description { get; private set; }
         public DateTime DueDate { get; private set; }
-        public TaskItemStatus Status { get; private set; } // Propiedad del estado
+        public TaskItemStatus Status { get; private set; } 
         public TaskPriority Priority { get; private set; }
-        public DateTime? CompletionDate { get; private set; } // Propiedad de fecha de completado
+        public DateTime? CompletionDate { get; private set; } 
 
         public Guid ProjectId { get; private set; }
-        public Project Project { get; private set; } = null!; // Navegación
+        public Project Project { get; private set; } = null!; 
 
-        public Guid? AssignedToUserId { get; private set; } // Propiedad del usuario asignado
+        public Guid? AssignedToUserId { get; private set; } 
         public User? AssignedToUser { get; private set; } 
 
         private readonly List<Comment> _comments = new();
         public IReadOnlyCollection<Comment> Comments => _comments.AsReadOnly();
 
-        // Constructor privado para EF Core
+        // Private constructor for EF Core
         private TaskItem() { }
 
-        // Constructor público para creación de nuevas tareas
+        // Public constructor for creating new tasks
         public TaskItem(string title, DateTime dueDate, Guid projectId, string? description = null, TaskPriority priority = TaskPriority.Medium, Guid? assignedToUserId = null)
         {
-            // Validaciones para la creación
+            // Validations for creation
             if (string.IsNullOrWhiteSpace(title))
             {
                 throw new ArgumentNullException(nameof(title), "Task title cannot be empty.");
@@ -58,11 +56,8 @@ namespace Domain.Entities
             AddDomainEvent(new TaskCreatedEvent(this));
         }
 
-        // --- Business Logic Methods ---
-
         /// <summary>
         /// Updates the task's core details including status, priority, and assigned user.
-        /// Este es el método que tu UpdateTaskItemCommand debería usar.
         /// </summary>
         public void UpdateDetails(
             string newTitle,
@@ -74,7 +69,7 @@ namespace Domain.Entities
             Guid? newAssignedToUserId 
         )
         {
-            // Validaciones para la actualización 
+            // Validations for updating 
             if (string.IsNullOrWhiteSpace(newTitle))
             {
                 throw new ArgumentNullException(nameof(newTitle), "Task title cannot be empty.");

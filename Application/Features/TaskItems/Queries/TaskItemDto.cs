@@ -15,20 +15,13 @@ public class TaskItemDto : IMapFrom<TaskItem>
     public string Status { get; set; } = string.Empty; 
     public string Priority { get; set; } = string.Empty; 
     public string? CompletionDate { get; set; } 
-
-    
     public string ProjectId { get; set; } = string.Empty;
     public string ProjectName { get; set; } = string.Empty; 
-
     public string? AssignedToUserId { get; set; } 
     public string? AssignedToUserName { get; set; } 
-
-    
     public string CreationDate { get; set; } = string.Empty; 
     public string? LastModifiedDate { get; set; } 
 
-
-    
     public void Mapping(Profile profile)
     {
         profile.CreateMap<TaskItem, TaskItemDto>()

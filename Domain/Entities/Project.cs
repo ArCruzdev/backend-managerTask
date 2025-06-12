@@ -49,8 +49,6 @@ namespace Domain.Entities
             AddDomainEvent(new ProjectCreatedEvent(this)); 
         }
 
-        // --- Business Logic Methods ---
-
         /// <summary>
         /// Updates the project's details.
         /// </summary>
@@ -158,7 +156,7 @@ namespace Domain.Entities
                 AddDomainEvent(new ProjectStatusChangedEvent(this, ProjectStatus.Completed));
             }
         }
-        //validacion si se puede o no eliminar el project
+        //Validation if the project can be deleted or not
         public void EnsureCanBeDeleted()
         {
             if (Status == ProjectStatus.Completed)

@@ -43,10 +43,9 @@ public class AssignTaskToUserCommandHandler : IRequestHandler<AssignTaskToUserCo
             throw new InvalidUserOperationException("Cannot assign tasks to an inactive user.");
 
         // Asignar la tarea al usuario
-        task.AssignToUser(request.UserId); // Aquí asumo que tienes este método en TaskItem
+        task.AssignToUser(request.UserId); 
 
-        // Registrar la tarea en el usuario (opcional, si lo manejas desde el dominio)
-        user.AssignTask(task); // Si tienes este método en User (de lo contrario, se puede omitir)
+        user.AssignTask(task); 
 
         await _context.SaveChangesAsync(cancellationToken);
 
