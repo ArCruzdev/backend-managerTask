@@ -18,21 +18,15 @@ public class ApplicationDbContext : DbContext, IApplicationDbContext
     {
         _mediator = mediator;
     }
-
-    // Definimos los DbSet para nuestras entidades principales
     public DbSet<Project> Projects => Set<Project>();
     public DbSet<TaskItem> TaskItems => Set<TaskItem>(); 
     public DbSet<User> Users => Set<User>();
     public DbSet<Comment> Comments => Set<Comment>();
 
-    // Este método se llama cuando se crea el modelo de la base de datos.
-    // Aquí configuraremos el mapeo de nuestras entidades.
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
     }
-
-    // Sobrescribimos SaveChangesAsync para publicar los eventos de dominio
     public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken())
     {
         // Antes de guardar, procesamos los eventos de dominio. 

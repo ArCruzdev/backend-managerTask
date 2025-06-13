@@ -2,7 +2,7 @@
 
 namespace Application.Common.Exceptions
 {
-    // Excepción para representar un error de solicitud inválida (HTTP 400 Bad Request)
+    // Exception to represent a bad request error (HTTP 400 Bad Request)
     public class BadRequestException : Exception
     {
         public BadRequestException()

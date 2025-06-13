@@ -1,5 +1,4 @@
-﻿// Path: Infrastructure/Configurations/UserConfiguration.cs
-using Domain.Entities; // Para acceder a la entidad User
+﻿using Domain.Entities; 
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -23,13 +22,13 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
         builder.Property(u => u.Email)
             .HasMaxLength(250)
             .IsRequired();
-        builder.HasIndex(u => u.Email) // Índice único para el email
+        builder.HasIndex(u => u.Email) 
             .IsUnique();
 
         builder.Property(u => u.Username)
             .HasMaxLength(100)
             .IsRequired();
-        builder.HasIndex(u => u.Username) // Índice único para el username
+        builder.HasIndex(u => u.Username) 
             .IsUnique();
 
         builder.Property(u => u.Role)
@@ -43,6 +42,6 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
         builder.HasMany(u => u.Comments)
             .WithOne(c => c.User)
             .HasForeignKey(c => c.UserId)
-            .OnDelete(DeleteBehavior.Restrict); // No eliminar usuario si tiene comentarios
+            .OnDelete(DeleteBehavior.Restrict); 
     }
 }

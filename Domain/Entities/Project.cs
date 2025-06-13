@@ -26,6 +26,14 @@ namespace Domain.Entities
         {
             
         }
+        //contructor para pruebas
+        internal Project(Guid id, string name, DateTime startDate)
+        {
+            Id = id;
+            Name = name;
+            StartDate = startDate;
+            Status = ProjectStatus.Active;
+        }
 
         // Public constructor for creating new projects
         public Project(string name, DateTime startDate, string? description = null, decimal? budget = null)
@@ -48,8 +56,6 @@ namespace Domain.Entities
             
             AddDomainEvent(new ProjectCreatedEvent(this)); 
         }
-
-        // --- Business Logic Methods ---
 
         /// <summary>
         /// Updates the project's details.
@@ -158,7 +164,7 @@ namespace Domain.Entities
                 AddDomainEvent(new ProjectStatusChangedEvent(this, ProjectStatus.Completed));
             }
         }
-        //validacion si se puede o no eliminar el project
+        //Validation if the project can be deleted or not
         public void EnsureCanBeDeleted()
         {
             if (Status == ProjectStatus.Completed)
@@ -166,8 +172,6 @@ namespace Domain.Entities
                 throw new InvalidProjectOperationException("Cannot delete a completed project.");
             }
         }
-
-
 
     }
 }

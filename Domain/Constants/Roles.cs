@@ -1,12 +1,11 @@
-﻿
-namespace Domain.Constants
+﻿namespace Domain.Constants
 {
     public static class Roles
     {
-        public const string Administrator = "Administrator"; // Full system access, project management, user management.
-        public const string ProjectManager = "ProjectManager"; // Manage projects, assign tasks, view progress.
-        public const string TeamMember = "TeamMember";     // Work on assigned tasks, add comments.
-        public const string Viewer = "Viewer";           // Read-only access to tasks and projects.
+        public const string Administrator = "Administrator"; 
+        public const string ProjectManager = "ProjectManager"; 
+        public const string TeamMember = "TeamMember";     
+        public const string Viewer = "Viewer";           
 
         /// <summary>
         /// Gets all defined user roles as a read-only collection.
