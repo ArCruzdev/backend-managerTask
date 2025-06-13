@@ -26,6 +26,14 @@ namespace Domain.Entities
         {
             
         }
+        //contructor para pruebas
+        internal Project(Guid id, string name, DateTime startDate)
+        {
+            Id = id;
+            Name = name;
+            StartDate = startDate;
+            Status = ProjectStatus.Active;
+        }
 
         // Public constructor for creating new projects
         public Project(string name, DateTime startDate, string? description = null, decimal? budget = null)
@@ -164,8 +172,6 @@ namespace Domain.Entities
                 throw new InvalidProjectOperationException("Cannot delete a completed project.");
             }
         }
-
-
 
     }
 }
