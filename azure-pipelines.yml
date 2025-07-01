@@ -1,0 +1,46 @@
+trigger:
+- main
+
+pool:
+  vmImage: 'windows-latest'
+
+variables:
+  buildConfiguration: 'Release'
+  solution: 'TaskManagerApi.sln'
+
+steps:
+- task: UseDotNet@2
+  displayName: 'Instalar .NET SDK'
+  inputs:
+    version: '8.0'
+    includePreviewVersions: false
+
+- task: DotNetCoreCLI@2
+  displayName: 'Restaurar paquetes NuGet'
+  inputs:
+    command: 'restore'
+    projects: '$(solution)'
+
+- task: DotNetCoreCLI@2
+  displayName: 'Compilar la solución'
+  inputs:
+    command: 'build'
+    projects: '$(solution)'
+    arguments: '--configuration $(buildConfiguration) --no-restore'
+
+- task: DotNetCoreCLI@2
+  displayName: 'Publicar la aplicación WebAPI'
+  inputs:
+    command: 'publish'
+    publishWebProjects: false
+    projects: 'WebAPI/WebAPI.csproj'
+    arguments: '--configuration $(buildConfiguration) --output $(Build.ArtifactStagingDirectory)/drop'
+    zipAfterPublish: true
+
+- task: PublishBuildArtifacts@1
+  displayName: 'Publicar Artefactos de Build'
+  inputs:
+    pathToPublish: '$(Build.ArtifactStagingDirectory)/drop'
+    artifactName: 'BackendArtifact'
+    publishLocation: 'Container'
+
