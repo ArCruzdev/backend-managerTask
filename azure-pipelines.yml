@@ -12,7 +12,8 @@ steps:
 - task: UseDotNet@2
   displayName: 'Instalar .NET SDK'
   inputs:
-    version: '8.0'
+    packageType: 'sdk'
+    version: '8.0.x'
     includePreviewVersions: false
 
 - task: DotNetCoreCLI@2
@@ -43,4 +44,5 @@ steps:
     pathToPublish: '$(Build.ArtifactStagingDirectory)/drop'
     artifactName: 'BackendArtifact'
     publishLocation: 'Container'
+
 
