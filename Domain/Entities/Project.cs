@@ -27,7 +27,7 @@ namespace Domain.Entities
             
         }
         //contructor para pruebas
-        internal Project(Guid id, string name, DateTime startDate)
+        public Project(Guid id, string name, DateTime startDate)
         {
             Id = id;
             Name = name;
